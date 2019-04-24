@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "babel-node ./index.js"
+    "start": "forever -c babel-node -w ./index.js"
   },
   "dependencies": {
     "@babel/core": "^7.4.3",
@@ -13,5 +13,8 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "forever": "^1.0.0"
   }
 }
