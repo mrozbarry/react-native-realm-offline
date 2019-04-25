@@ -1,9 +1,9 @@
-const initialState = '';
+const initialState = false;
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'APIHOST_SET':
-      return action.value;
+    case 'INITIALIZE_APPLICATION_COMPLETE':
+      return true;
 
     default:
       return state;
