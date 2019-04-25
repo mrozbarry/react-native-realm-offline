@@ -1,9 +1,9 @@
-import { fork, takeEvery } from "redux-saga/effects";
+import { fork, select, takeEvery } from "redux-saga/effects";
 import messageSubmit from "./submit";
 import poll from "./pollChannel";
-import { apiHost } from '../../config';
 
 export default function*(sharedChannel) {
+  const { apiHost } = yield select();
   yield takeEvery("MESSAGE_SUBMIT", messageSubmit, apiHost);
   yield fork(poll, sharedChannel, apiHost);
 }

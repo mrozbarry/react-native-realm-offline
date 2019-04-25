@@ -2,29 +2,30 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 import { StackActions, withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
-import { func, object, string } from 'prop-types';
+import { bool } from 'prop-types';
 import Layout from '../components/layout';
 
 class Splash extends Component {
   static propTypes = {
-    initializeApp: func.isRequired,
-    navigation: object.isRequired,
-    netInfo: string.isRequired,
+    splash: bool.isRequired,
   };
 
-  componentDidMount() {
-    this.props.initializeApp(this.props.navigation);
+  componentDidUpdate(prevProps) {
+    if (this.props.splash === true) {
+      this.goToHome();
+    }
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.netInfo !== this.props.netInfo) {
-      this.props.navigation.dispatch(
-        StackActions.replace({
-          routeName: 'Home',
-          params: {},
-        }),
-      );
-    }
+  goToHome() {
+    console.log('spash.goToHome', this.props);
+    if (!this.props.splash) return;
+
+    this.props.navigation.dispatch(
+      StackActions.replace({
+        routeName: 'Home',
+        params: {},
+      }),
+    );
   }
 
   render() {
@@ -38,14 +39,8 @@ class Splash extends Component {
 
 export default connect(
   state => ({
-    netInfo: state.netInfo,
+    splash: state.splash,
   }),
-  dispatch => ({
-    initializeApp: navigation => dispatch({
-      type: 'INITIALIZE_APPLICATION',
-      navigation,
-    }),
-  })
 )(withNavigation(Splash));
 
 

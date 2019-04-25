@@ -1,32 +1,18 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
-import { Container, Content, Footer, Icon, List } from 'native-base';
-import { arrayOf, number, oneOf, shape, string } from 'prop-types';
+import { Container, Content, Footer, List } from 'native-base';
+import { arrayOf, number, shape, string } from 'prop-types';
 import { connect } from 'react-redux';
 import InputFooter from '../components/inputFooter';
 import Message from '../components/message';
-
-
-const HeaderIcon = ({ netInfo }) =>
-  <Icon
-    type="MaterialCommunityIcons"
-    name={netInfo === 'connected' ? 'network-strength-3' : 'network-strength-off-outline'}
-  />;
-
-HeaderIcon.propTypes = {
-  netInfo: oneOf(['undetermined', 'connected', 'disconnected']),
-}
-
-const ConnectedHeaderIcon = connect(
-  state => ({ netInfo: state.netInfo }),
-)(HeaderIcon);
+import NetInfoIcon from '../components/netInfoIcon';
+import SettingsButton from '../components/settingsButton';
 
 
 class Home extends Component {
   static navigationOptions = {
+    headerLeft: <NetInfoIcon />,
     title: 'Messages',
-    headerRight: <ConnectedHeaderIcon />,
-    headerLeft: <Text />
+    headerRight: <SettingsButton />,
   };
 
   static propTypes = {
@@ -40,11 +26,19 @@ class Home extends Component {
   contentRef = React.createRef();
 
   componentDidUpdate(prevProps) {
-    if (prevProps.messages.length < this.props.messages.length) {
-      setTimeout(() => {
-        this.contentRef.current.wrappedInstance.scrollToEnd({ animated: true });
-      }, 250);
+    if (prevProps.messages.length !== this.props.messages.length) {
+      this.scrollToBottom();
     }
+  }
+
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom() {
+    setTimeout(() => {
+      this.contentRef.current.wrappedInstance.scrollToEnd({ animated: true });
+    }, 50);
   }
 
   render() {

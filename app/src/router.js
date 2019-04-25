@@ -4,12 +4,14 @@ import { connect } from 'react-redux';
 
 import Splash from './views/splash';
 import Home from './views/home';
+import Settings from './views/settings';
 
 const selectFromState = state => state.navigation;
 
 const routes = {
   Splash,
   Home,
+  Settings,
 };
 
 const config = {
